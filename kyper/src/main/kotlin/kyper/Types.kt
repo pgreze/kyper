@@ -27,8 +27,8 @@ internal fun KType.convert(arg: String): Any =
 
 // https://stackoverflow.com/a/46422600/5489877
 @Suppress("UNCHECKED_CAST")
-private fun KType.enumValueOf(value: String): Enum<*> {
-    val clazz = classifier as KClass<Enum<*>>
-    val enumConstants = clazz.java.enumConstants as Array<out Enum<*>>
-    return enumConstants.first { it.name == value }
-}
+internal fun KType.enumValues(): Array<out Enum<*>> =
+    (classifier as KClass<Enum<*>>).java.enumConstants as Array<out Enum<*>>
+
+private fun KType.enumValueOf(value: String): Enum<*> =
+    enumValues().first { it.name == value }

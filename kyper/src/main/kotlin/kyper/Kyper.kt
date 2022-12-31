@@ -3,8 +3,10 @@ package kyper
 import kotlin.reflect.KFunction
 import kotlin.reflect.KVisibility
 import kotlin.reflect.full.findAnnotation
+import kotlin.reflect.full.isSubtypeOf
 import kotlin.reflect.jvm.ExperimentalReflectionOnLambdas
 import kotlin.reflect.jvm.reflect
+import kotlin.reflect.typeOf
 import kotlin.system.exitProcess
 
 /**
@@ -79,12 +81,14 @@ public class Kyper {
                 exitProcess(1)
             }
 
-            args.firstOrNull() in arrayOf("help", "--help", "-h") ->
-                showHelp(commands)
+            args.firstOrNull() in HELP_FLAGS ->
+                args.getOrNull(1).let(commands::get)
+                    ?.showHelp()
+                    ?: commands.values.showHelp()
 
             // Invalid or missing command name
             commands.size > 1 && args.firstOrNull() !in commands -> {
-                showHelp(commands)
+                commands.values.showHelp()
                 exitProcess(1)
             }
 
@@ -95,28 +99,28 @@ public class Kyper {
                     commands[args.first()]!!
                 }
 
-                try {
-                    command.call(args.drop(1).toTypedArray())
-                } catch (e: PrintHelp) {
-                    showHelp(commands.filter { e.thisCommandOnly.not() || it.key == command.name })
-                    exitProcess(e.returnCode)
-                } catch (e: KyperExit) {
-                    if (e.error.isNotEmpty()) {
-                        System.err.println(e.error)
-                    }
-                    exitProcess(e.returnCode)
+                if (args[1] in HELP_FLAGS) {
+                    command.showHelp()
+                } else {
+                    call(command, args)
                 }
             }
         }
 
-    private fun showHelp(commands: Map<String, Command>) {
-        println("Usage:")
-        // TODO: add help --help -h
-        commands.forEach { (name, command) ->
-            println(">> $name: ${command.help ?: ""}")
-            command.parameters.forEach {
-                println("${it.name} ${it.findAnnotation<Help>()?.help ?: ""}")
+    private fun call(command: Command, args: Array<out String>) =
+        try {
+            command.call(args.drop(1).toTypedArray())
+        } catch (e: PrintHelp) {
+            if (e.thisCommandOnly) {
+                command.showHelp()
+            } else {
+                commands.values.showHelp()
             }
+            exitProcess(e.returnCode)
+        } catch (e: KyperExit) {
+            if (e.error.isNotEmpty()) {
+                System.err.println(e.error)
+            }
+            exitProcess(e.returnCode)
         }
-    }
 }

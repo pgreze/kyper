@@ -29,15 +29,16 @@ fun main(args: Array<String>) {
         register("lambda2") { name: String, end: String -> println("hey $name $end") }
     }
 
-    kyper("greet", "monde", "OK")
-    kyper("time")
-    kyper("main")
-    kyper("command2", "haha", "42", ".")
-    kyper("lambda0")
-    kyper("lambda1", "world")
-    kyper("lambda2", "haha", "42")
+//    kyper("greet", "monde", "OK")
+//    kyper("time")
+//    kyper("main")
+//    kyper("command2", "haha", "42", ".")
+//    kyper("lambda0")
+//    kyper("lambda1", "world")
+//    kyper("lambda2", "haha", "42")
     kyper("--help")
-    kyper(args)
+    kyper("--help", "greet")
+//    kyper(args)
 }
 
 fun time() {
@@ -50,6 +51,7 @@ enum class Choice { OK, NO }
 fun greet(
     @Help("The name to greet")
     name: String,
+    @Help("OK or NO?")
     choice: Choice = Choice.OK,
     flag: Boolean = false,
 ) {
