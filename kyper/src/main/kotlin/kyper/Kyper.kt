@@ -13,17 +13,21 @@ import kotlin.system.exitProcess
  * Convenient method allowing to create a [Kyper] instance
  * provisioned with [Kyper.registerPublicMethods] for the given instance.
  */
-public fun Any.kyper(): Kyper =
-    Kyper().registerPublicMethods(instance = this)
+public fun Any.kyper(help: String? = null): Kyper =
+    Kyper(help).registerPublicMethods(instance = this)
 
 /**
  * @param init enable a DSL like syntax with [Kyper.register] methods.
  */
-public fun kyper(init: Kyper.() -> Unit): Kyper =
-    Kyper().apply(init)
+public fun kyper(
+    help: String? = null,
+    init: Kyper.() -> Unit,
+): Kyper =
+    Kyper(help).apply(init)
 
-public class Kyper {
-
+public class Kyper(
+    private val help: String? = null,
+) {
     private val commands = mutableMapOf<String, Command>()
 
     public fun register(command: KFunction<*>): Kyper = this.also {
@@ -82,24 +86,25 @@ public class Kyper {
             }
 
             args.firstOrNull() in HELP_FLAGS ->
-                args.getOrNull(1).let(commands::get)
+                args.getOrNull(1)
+                    .let(commands::get)
                     ?.showHelp()
-                    ?: commands.values.showHelp()
+                    ?: commands.values.showHelp(help)
 
             // Invalid or missing command name
             commands.size > 1 && args.firstOrNull() !in commands -> {
-                commands.values.showHelp()
+                commands.values.showHelp(help)
                 exitProcess(1)
             }
 
             else -> {
-                val command = if (commands.size == 1) {
-                    commands.values.first()
+                val (command, args) = if (commands.size == 1) {
+                    commands.values.first() to args
                 } else {
-                    commands[args.first()]!!
+                    commands[args.first()]!! to args.drop(1).toTypedArray()
                 }
 
-                if (args[1] in HELP_FLAGS) {
+                if (args.firstOrNull() in HELP_FLAGS) {
                     command.showHelp()
                 } else {
                     call(command, args)
@@ -109,12 +114,12 @@ public class Kyper {
 
     private fun call(command: Command, args: Array<out String>) =
         try {
-            command.call(args.drop(1).toTypedArray())
+            command.call(args)
         } catch (e: PrintHelp) {
             if (e.thisCommandOnly) {
                 command.showHelp()
             } else {
-                commands.values.showHelp()
+                commands.values.showHelp(help)
             }
             exitProcess(e.returnCode)
         } catch (e: KyperExit) {

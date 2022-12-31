@@ -4,8 +4,8 @@
 
 import kyper.kyper
 
-kyper {
-    register("time") { ->
+kyper(help = "Run multiple commands from Kotlin script with ease") {
+    register("time", "Display current timestamp") { ->
         println(System.currentTimeMillis())
     }
 

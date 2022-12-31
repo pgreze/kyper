@@ -37,7 +37,7 @@ fun main(args: Array<String>) {
 //    kyper("lambda1", "world")
 //    kyper("lambda2", "haha", "42")
     kyper("--help")
-    kyper("--help", "greet")
+    kyper("greet", "--help")
 //    kyper(args)
 }
 

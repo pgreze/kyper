@@ -6,7 +6,7 @@ import kotlin.reflect.typeOf
 
 internal val HELP_FLAGS = arrayOf("-h", "--help")
 
-internal fun Collection<Command>.showHelp(help: String? = null) {
+internal fun Collection<Command>.showHelp(help: String?) {
     help?.let {
         println("  $it")
         println()
