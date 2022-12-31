@@ -109,7 +109,7 @@ public class Kyper {
         }
 
     private fun showHelp(commands: Map<String, Command>) {
-        println("\n\ncommands:")
+        println("Usage:")
         // TODO: add help --help -h
         commands.forEach { (name, command) ->
             println(">> $name: ${command.help ?: ""}")
