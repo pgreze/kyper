@@ -44,9 +44,10 @@ public class Kyper {
     }
 
     @ExperimentalReflectionOnLambdas
-    public fun register(name: String, help: String? = null, command: (String, String, String) -> Unit): Kyper = this.also {
-        commands[name] = Command.Lambda(name, help, command.reflect()!!) { command(it[0], it[1], it[2]) }
-    }
+    public fun register(name: String, help: String? = null, command: (String, String, String) -> Unit): Kyper =
+        this.also {
+            commands[name] = Command.Lambda(name, help, command.reflect()!!) { command(it[0], it[1], it[2]) }
+        }
 
     @ExperimentalReflectionOnLambdas
     public fun register(name: String, help: String? = null, command: (String, String, String, String) -> Unit): Kyper =

@@ -28,14 +28,14 @@ fun main(args: Array<String>) {
         register("lambda2") { name: String, end: String -> println("hey $name $end") }
     }
 
-    kyper("--help")
-    kyper("time")
-    kyper("main")
-    kyper("greet", "world")
-    kyper("command2", "haha", "42", ".")
-    kyper("lambda0")
-    kyper("lambda1", "world")
-    kyper("lambda2", "haha", "42")
+//    kyper("--help")
+//    kyper("time")
+//    kyper("main")
+    kyper("greet", "world", "OK")
+//    kyper("command2", "haha", "42", ".")
+//    kyper("lambda0")
+//    kyper("lambda1", "world")
+//    kyper("lambda2", "haha", "42")
     kyper(args)
 }
 
@@ -43,12 +43,15 @@ fun time() {
     println("Now: ${System.currentTimeMillis()}")
 }
 
+enum class Choice { OK, NO }
+
 @Help("This is greeting someone")
 fun greet(
     @Help("The name to greet")
     name: String,
+    choice: Choice,
 ) {
-    println("Hello $name")
+    println("Hello $name $choice")
 }
 
 @Help("Wonderful help message")

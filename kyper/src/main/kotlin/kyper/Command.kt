@@ -28,6 +28,7 @@ internal sealed class Command {
             if (receiver != null) func.parameters.drop(1) else func.parameters
 
         override fun call(args: Array<String>) {
+            // TODO: support positional arguments
             val typedArgs: Array<Any?> = parameters.zip(args)
                 .map { (kPar, arg) -> kPar.type.convert(arg) }
                 .toTypedArray()
