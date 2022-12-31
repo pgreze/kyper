@@ -1,9 +1,10 @@
 package kyper
 
 import kotlin.reflect.KFunction
-import kotlin.reflect.KProperty
 import kotlin.reflect.KVisibility
 import kotlin.reflect.full.findAnnotation
+import kotlin.reflect.jvm.ExperimentalReflectionOnLambdas
+import kotlin.reflect.jvm.reflect
 import kotlin.system.exitProcess
 
 /**
@@ -27,25 +28,31 @@ public class Kyper {
         commands[command.name] = Command.Function(command)
     }
 
-    public fun register(name: String, help: String? = null, command: Func0): Kyper = this.also {
-        commands[name] = Command.Func0(command, name, help)
+    @ExperimentalReflectionOnLambdas
+    public fun register(name: String, help: String? = null, command: () -> Unit): Kyper = this.also {
+        commands[name] = Command.Lambda(name, help, command.reflect()!!) { command() }
     }
 
-    public fun register(name: String, help: String? = null, command: Func1): Kyper = this.also {
-        commands[name] = Command.Func1(command, name, help)
+    @ExperimentalReflectionOnLambdas
+    public fun register(name: String, help: String? = null, command: (String) -> Unit): Kyper = this.also {
+        commands[name] = Command.Lambda(name, help, command.reflect()!!) { command(it[0]) }
     }
 
-    public fun register(name: String, help: String? = null, command: Func2): Kyper = this.also {
-        commands[name] = Command.Func2(command, name, help)
+    @ExperimentalReflectionOnLambdas
+    public fun register(name: String, help: String? = null, command: (String, String) -> Unit): Kyper = this.also {
+        commands[name] = Command.Lambda(name, help, command.reflect()!!) { command(it[0], it[1]) }
     }
 
-    public fun register(name: String, help: String? = null, command: Func3): Kyper = this.also {
-        commands[name] = Command.Func3(command, name, help)
+    @ExperimentalReflectionOnLambdas
+    public fun register(name: String, help: String? = null, command: (String, String, String) -> Unit): Kyper = this.also {
+        commands[name] = Command.Lambda(name, help, command.reflect()!!) { command(it[0], it[1], it[2]) }
     }
 
-    public fun register(name: String, help: String? = null, command: Func4): Kyper = this.also {
-        commands[name] = Command.Func4(command, name, help)
-    }
+    @ExperimentalReflectionOnLambdas
+    public fun register(name: String, help: String? = null, command: (String, String, String, String) -> Unit): Kyper =
+        this.also {
+            commands[name] = Command.Lambda(name, help, command.reflect()!!) { command(it[0], it[1], it[2], it[3]) }
+        }
 
     public fun unregister(name: String): Boolean =
         commands.remove(name) != null
@@ -56,7 +63,7 @@ public class Kyper {
             .filterIsInstance<KFunction<*>>()
             .filter { it.name !in defaultMethods }
             .filter { it.visibility == KVisibility.PUBLIC }
-            .forEach { commands[it.name] = Command.Function(it, instance) }
+            .forEach { commands[it.name] = Command.Function(it, receiver = instance) }
     }
 
     @JvmName("invokeWith")

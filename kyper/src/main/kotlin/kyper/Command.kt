@@ -4,7 +4,6 @@ import kotlin.reflect.KFunction
 import kotlin.reflect.KParameter
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.jvm.ExperimentalReflectionOnLambdas
-import kotlin.reflect.jvm.reflect
 
 internal sealed class Command {
 
@@ -18,75 +17,36 @@ internal sealed class Command {
 
     internal class Function(
         private val func: KFunction<*>,
-        private val instance: Any? = null,
         override val name: String = func.name,
+        private val receiver: Any? = null,
     ) : Command() {
 
         override val help: String?
             get() = func.findAnnotation<Help>()?.help
 
         override val parameters: List<KParameter> =
-            if (instance != null) func.parameters.drop(1) else func.parameters
+            if (receiver != null) func.parameters.drop(1) else func.parameters
 
         override fun call(args: Array<String>) {
             val typedArgs: Array<Any?> = parameters.zip(args)
                 .map { (kPar, arg) -> kPar.type.convert(arg) }
                 .toTypedArray()
-            if (instance == null) {
+            if (receiver == null) {
                 func.call(*typedArgs)
             } else {
-                func.call(instance, *typedArgs)
+                func.call(receiver, *typedArgs)
             }
         }
     }
 
-    internal class Func0(
-        private val func: kyper.Func0,
+    internal class Lambda(
         override val name: String,
         override val help: String? = null,
+        reflect: KFunction<Unit>,
+        private val wrapper: (Array<String>) -> Unit,
     ) : Command() {
         @ExperimentalReflectionOnLambdas
-        override val parameters: List<KParameter> = func.reflect()!!.parameters
-        override fun call(args: Array<String>) = func.invoke()
-    }
-
-    internal class Func1(
-        private val func: kyper.Func1,
-        override val name: String,
-        override val help: String? = null,
-    ) : Command() {
-        @ExperimentalReflectionOnLambdas
-        override val parameters: List<KParameter> = func.reflect()!!.parameters
-        override fun call(args: Array<String>) = func.invoke(args[0])
-    }
-
-    internal class Func2(
-        private val func: kyper.Func2,
-        override val name: String,
-        override val help: String? = null,
-    ) : Command() {
-        @ExperimentalReflectionOnLambdas
-        override val parameters: List<KParameter> = func.reflect()!!.parameters
-        override fun call(args: Array<String>) = func.invoke(args[0], args[1])
-    }
-
-    internal class Func3(
-        private val func: kyper.Func3,
-        override val name: String,
-        override val help: String? = null,
-    ) : Command() {
-        @ExperimentalReflectionOnLambdas
-        override val parameters: List<KParameter> = func.reflect()!!.parameters
-        override fun call(args: Array<String>) = func.invoke(args[0], args[1], args[2])
-    }
-
-    internal class Func4(
-        private val func: kyper.Func4,
-        override val name: String,
-        override val help: String? = null,
-    ) : Command() {
-        @ExperimentalReflectionOnLambdas
-        override val parameters: List<KParameter> = func.reflect()!!.parameters
-        override fun call(args: Array<String>) = func.invoke(args[0], args[1], args[2], args[3])
+        override val parameters: List<KParameter> = reflect.parameters
+        override fun call(args: Array<String>) = wrapper(args)
     }
 }
