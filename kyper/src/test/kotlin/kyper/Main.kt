@@ -17,13 +17,16 @@ object Main {
 }
 
 fun main(args: Array<String>) {
-    val kyper = Main.kyper()
-        .register(::time)
-        .register(::greet)
-        .register(::command2)
-        .register("lambda0") { -> println("hello world") } // { println("hello world") } is colliding with below
-        .register("lambda1") { name: String -> println("hello $name") }
-        .register("lambda2") { name: String, end: String -> println("hey $name $end") }
+    val kyper = kyper {
+        register(::time)
+        register(::greet)
+        register(::command2)
+        register("lambda0") { -> println("hello world") }
+        register("lambda1") { name: String ->
+            println("hello $name")
+        }
+        register("lambda2") { name: String, end: String -> println("hey $name $end") }
+    }
 
     kyper("--help")
     kyper("time")
