@@ -9,5 +9,3 @@ public annotation class Help(val help: String)
 @Retention(AnnotationRetention.RUNTIME)
 @MustBeDocumented
 public annotation class Exists(val exists: Boolean = true)
-
-// TODO: optional parameter

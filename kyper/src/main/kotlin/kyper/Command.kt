@@ -29,13 +29,12 @@ internal sealed class Command {
 
         override fun call(args: Array<String>) {
             // TODO: support positional arguments
-            val typedArgs: Array<Any?> = parameters.zip(args)
-                .map { (kPar, arg) -> kPar.type.convert(arg) }
-                .toTypedArray()
+            val paramToValue = parameters.zip(args)
+                .associate { (kPar, arg) -> kPar to kPar.type.convert(arg) }
             if (receiver == null) {
-                func.call(*typedArgs)
+                func.callBy(paramToValue)
             } else {
-                func.call(receiver, *typedArgs)
+                func.callBy(mapOf(func.parameters.first() to receiver) + paramToValue)
             }
         }
     }
@@ -48,6 +47,6 @@ internal sealed class Command {
     ) : Command() {
         @ExperimentalReflectionOnLambdas
         override val parameters: List<KParameter> = reflect.parameters
-        override fun call(args: Array<String>) = wrapper(args)
+        override fun call(args: Array<String>): Unit = wrapper(args)
     }
 }
