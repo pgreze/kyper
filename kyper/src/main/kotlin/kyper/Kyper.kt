@@ -81,10 +81,16 @@ public class Kyper(
                 throw IllegalStateException("No command registered")
 
             args.firstOrNull() in HELP_FLAGS ->
-                args.getOrNull(1)
-                    .let(commands::get)
-                    ?.showHelp()
-                    ?: commands.values.showHelp(help)
+                when {
+                    commands.size == 1 ->
+                        commands.values.first().showHelp()
+
+                    args.getOrNull(1) in commands ->
+                        commands[args[1]]!!.showHelp()
+
+                    else ->
+                        commands.values.showHelp(help)
+                }
 
             // Invalid or missing command name
             commands.size > 1 && args.firstOrNull() !in commands -> {

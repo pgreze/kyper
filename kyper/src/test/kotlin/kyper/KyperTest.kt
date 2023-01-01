@@ -4,6 +4,7 @@ import io.kotest.matchers.collections.shouldHaveSingleElement
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import io.kotest.matchers.string.shouldNotContain
+import kyper.KyperKtTest.PublicInternalPrivate
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -101,7 +102,18 @@ class KyperTest {
         }
 
         @Test
-        fun `invoke --help`() {
+        fun `invoke --help with a single command`() {
+            val globalHelp = "global help message"
+            val kyper = PublicInternalPrivate().kyper(help = globalHelp)
+
+            val stdout = captureStdout { kyper.invoke("--help") }
+
+            stdout shouldContain "public"
+            stdout shouldNotContain globalHelp
+        }
+
+        @Test
+        fun `invoke --help with many commands`() {
             val globalHelp = "global help message"
             val kyper = CaptureInvocations().kyper(help = globalHelp)
 

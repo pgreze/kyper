@@ -6,7 +6,10 @@ import kyper.Help
 import kyper.kyper
 
 @Help("function help message")
-fun hello(name: String) {
+fun hello(
+    @Help("the name to greet")
+    name: String
+) {
     println("hello $name")
 }
 
