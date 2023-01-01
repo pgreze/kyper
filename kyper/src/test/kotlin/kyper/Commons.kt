@@ -1,7 +1,8 @@
 package kyper
 
+import java.io.ByteArrayOutputStream
 import java.io.File
-import java.io.Serializable
+import java.io.PrintStream
 
 enum class Choice { OK, NO }
 
@@ -33,3 +34,17 @@ fun functionWithDefaults(
     vararg many: String,
 ): Array<Any> = // Notice List is converted to Array when returned by
     arrayOf(file, repeat, flag, many.copyOf())
+
+fun captureStdout(block: () -> Unit): String {
+    val array = ByteArrayOutputStream()
+    val stream = PrintStream(array)
+    val oldOut = System.out
+    System.setOut(stream)
+    try {
+        block()
+    } finally {
+        System.setOut(oldOut)
+        stream.close()
+    }
+    return array.toString()
+}

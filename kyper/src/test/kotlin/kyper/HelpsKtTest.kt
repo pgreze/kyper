@@ -46,17 +46,3 @@ class HelpsKtTest {
         """.trimIndent()
     }
 }
-
-private fun captureStdout(block: () -> Unit): String {
-    val array = ByteArrayOutputStream()
-    val stream = PrintStream(array)
-    val oldOut = System.out
-    System.setOut(stream)
-    try {
-        block()
-    } finally {
-        System.setOut(oldOut)
-        stream.close()
-    }
-    return array.toString()
-}

@@ -42,7 +42,7 @@ internal sealed class Command {
     internal class Lambda(
         override val name: String,
         override val help: String? = null,
-        reflect: KFunction<Any?>,
+        reflect: KFunction<Unit>,
         private val wrapper: (Array<out String>) -> Any?,
     ) : Command() {
         @ExperimentalReflectionOnLambdas
