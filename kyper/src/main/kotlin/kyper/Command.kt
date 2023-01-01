@@ -13,7 +13,7 @@ internal sealed class Command {
 
     internal abstract val parameters: List<KParameter>
 
-    public abstract fun call(args: Array<out String>)
+    public abstract fun call(args: Array<out String>): Any?
 
     internal class Function(
         private val func: KFunction<*>,
@@ -27,11 +27,11 @@ internal sealed class Command {
         override val parameters: List<KParameter> =
             if (receiver != null) func.parameters.drop(1) else func.parameters
 
-        override fun call(args: Array<out String>) {
+        override fun call(args: Array<out String>): Any? {
             // TODO: support positional arguments
-            val paramToValue = parameters.zip(args)
-                .associate { (kPar, arg) -> kPar to kPar.type.convert(arg) }
-            if (receiver == null) {
+            val paramToValue = parameters.withIndex()
+                .associate { (index, param) -> param to param.type.convert(args, index) }
+            return if (receiver == null) {
                 func.callBy(paramToValue)
             } else {
                 func.callBy(mapOf(func.parameters.first() to receiver) + paramToValue)
@@ -42,11 +42,11 @@ internal sealed class Command {
     internal class Lambda(
         override val name: String,
         override val help: String? = null,
-        reflect: KFunction<Unit>,
-        private val wrapper: (Array<out String>) -> Unit,
+        reflect: KFunction<Any?>,
+        private val wrapper: (Array<out String>) -> Any?,
     ) : Command() {
         @ExperimentalReflectionOnLambdas
         override val parameters: List<KParameter> = reflect.parameters
-        override fun call(args: Array<out String>): Unit = wrapper(args)
+        override fun call(args: Array<out String>): Any? = wrapper(args)
     }
 }

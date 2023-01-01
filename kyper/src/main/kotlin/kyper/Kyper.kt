@@ -2,11 +2,8 @@ package kyper
 
 import kotlin.reflect.KFunction
 import kotlin.reflect.KVisibility
-import kotlin.reflect.full.findAnnotation
-import kotlin.reflect.full.isSubtypeOf
 import kotlin.reflect.jvm.ExperimentalReflectionOnLambdas
 import kotlin.reflect.jvm.reflect
-import kotlin.reflect.typeOf
 import kotlin.system.exitProcess
 
 /**
@@ -35,28 +32,28 @@ public class Kyper(
     }
 
     @ExperimentalReflectionOnLambdas
-    public fun register(name: String, help: String? = null, command: () -> Unit): Kyper = this.also {
+    public fun register(name: String, help: String? = null, command: () -> Any?): Kyper = this.also {
         commands[name] = Command.Lambda(name, help, command.reflect()!!) { command() }
     }
 
     @ExperimentalReflectionOnLambdas
-    public fun register(name: String, help: String? = null, command: (String) -> Unit): Kyper = this.also {
+    public fun register(name: String, help: String? = null, command: (String) -> Any?): Kyper = this.also {
         commands[name] = Command.Lambda(name, help, command.reflect()!!) { command(it[0]) }
     }
 
     @ExperimentalReflectionOnLambdas
-    public fun register(name: String, help: String? = null, command: (String, String) -> Unit): Kyper = this.also {
+    public fun register(name: String, help: String? = null, command: (String, String) -> Any?): Kyper = this.also {
         commands[name] = Command.Lambda(name, help, command.reflect()!!) { command(it[0], it[1]) }
     }
 
     @ExperimentalReflectionOnLambdas
-    public fun register(name: String, help: String? = null, command: (String, String, String) -> Unit): Kyper =
+    public fun register(name: String, help: String? = null, command: (String, String, String) -> Any?): Kyper =
         this.also {
             commands[name] = Command.Lambda(name, help, command.reflect()!!) { command(it[0], it[1], it[2]) }
         }
 
     @ExperimentalReflectionOnLambdas
-    public fun register(name: String, help: String? = null, command: (String, String, String, String) -> Unit): Kyper =
+    public fun register(name: String, help: String? = null, command: (String, String, String, String) -> Any?): Kyper =
         this.also {
             commands[name] = Command.Lambda(name, help, command.reflect()!!) { command(it[0], it[1], it[2], it[3]) }
         }
@@ -112,7 +109,7 @@ public class Kyper(
             }
         }
 
-    private fun call(command: Command, args: Array<out String>) =
+    private fun call(command: Command, args: Array<out String>) {
         try {
             command.call(args)
         } catch (e: PrintHelp) {
@@ -128,4 +125,5 @@ public class Kyper(
             }
             exitProcess(e.returnCode)
         }
+    }
 }

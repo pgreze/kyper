@@ -2,6 +2,8 @@ package kyper
 
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
+import io.kotest.matchers.types.shouldBeTypeOf
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
@@ -49,14 +51,53 @@ class TypesKtTest {
     @ParameterizedTest
     @MethodSource("typeToValueProvider")
     fun convert(kType: KType, value: Any) {
-        kType.convert(value.toString()) shouldBe value
+        kType.convert(arrayOf("", value.toString()), 1) shouldBe value
+    }
+
+    @Nested
+    inner class Vararg {
+        @Test
+        fun `convert vararg string`() {
+            val args = (0..2).map { "a$it" }.toTypedArray()
+            typeOf<Array<out String>>().convert(args, 1)
+                .shouldBeTypeOf<Array<out String>> {
+                    arrayOf(
+                        "a1",
+                        "a2",
+                    )
+                }
+        }
+
+        @Test
+        fun `convert vararg file`() {
+            val args = (0..2).map { "f$it" }.toTypedArray()
+            typeOf<Array<out File>>().convert(args, 1)
+                .shouldBeTypeOf<Array<out File>> {
+                    arrayOf(
+                        File("f1"),
+                        File("f2"),
+                    )
+                }
+        }
+
+        @Test
+        fun `convert vararg path`() {
+            val args = (0..2).map { "f$it" }.toTypedArray()
+            typeOf<Array<out Path>>().convert(args, 1)
+                .shouldBeTypeOf<Array<out Path>> {
+                    arrayOf(
+                        Path.of("f1"),
+                        Path.of("f2"),
+                    )
+                }
+        }
     }
 
     @Test
     fun `convert unsupported type`() {
         val kType = typeOf<StringBuilder>()
 
-        assertThrows<RuntimeException> { kType.convert("") }
+        assertThrows<RuntimeException> { kType.convert(arrayOf(), 0) }
             .message shouldContain "$kType"
     }
 
