@@ -45,8 +45,6 @@ fun time() {
     println("Now: ${System.currentTimeMillis()}")
 }
 
-enum class Choice { OK, NO }
-
 @Help("This is greeting someone")
 fun greet(
     @Help("The name to greet")

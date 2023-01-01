@@ -20,8 +20,6 @@ import kotlin.reflect.typeOf
 
 class TypesKtTest {
 
-    enum class Choice { OK, NO }
-
     data class MyClass(
         val string: String = "arg",
         val int: Int = 1,
