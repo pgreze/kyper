@@ -1,7 +1,7 @@
-// TODO: make generic
+#!/usr/bin/env kotlinc -script
+
 @file:DependsOn("/Users/pgreze/git/pgreze/kyper/kyper/build/libs/kyper.jar")
 @file:Suppress("OPT_IN_USAGE")
-// @file:DependsOn("com.github.pgreze:kyper:WIP")
 
 import kyper.kyper
 
