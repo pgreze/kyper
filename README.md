@@ -48,7 +48,7 @@ I would stick with [clikt](https://ajalt.github.io/clikt/)
 or any alternative not working on ~magic~ reflection
 and/or implicit behaviors as this library is doing.
 
-## Installation  [![central](https://maven-badges.herokuapp.com/maven-central/com.github.pgreze/kyper/badge.svg?style={style})](https://search.maven.org/artifact/com.github.pgreze/kyper) [![](https://img.shields.io/badge/Kotlin-1.7.10-blue)](https://kotlinlang.org/)
+## Installation  [![central](https://maven-badges.herokuapp.com/maven-central/com.github.pgreze/kyper/badge.svg?style={style})](https://search.maven.org/artifact/com.github.pgreze/kyper) [![](https://img.shields.io/badge/Kotlin-1.7.22-blue)](https://kotlinlang.org/)
 
 ```kotlin
 repositories {

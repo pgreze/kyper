@@ -1,6 +1,6 @@
 #!/usr/bin/env kotlinc -script
 
-@file:DependsOn("/Users/pgreze/git/pgreze/kyper/kyper/build/libs/kyper.jar")
+@file:DependsOn("/Users/pgreze/git/pgreze/kyper/build/libs/kyper.jar")
 @file:Suppress("OPT_IN_USAGE")
 
 import com.github.pgreze.kyper.kyper

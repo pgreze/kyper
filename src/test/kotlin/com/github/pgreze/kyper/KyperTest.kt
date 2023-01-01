@@ -49,7 +49,7 @@ class KyperTest {
         @Test
         fun `register Function3`() {
             val name = "function3"
-            val kyper = Kyper().register(name) { _, _ -> }
+            val kyper = Kyper().register(name) { _, _, _ -> }
 
             kyper.commands.keys shouldHaveSingleElement name
         }
