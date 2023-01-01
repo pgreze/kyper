@@ -6,8 +6,8 @@ import kyper.Help
 import kyper.kyper
 
 @Help("function help message")
-fun hello() {
-    println("Hey")
+fun hello(name: String) {
+    println("hello $name")
 }
 
 kyper().invoke(args)
