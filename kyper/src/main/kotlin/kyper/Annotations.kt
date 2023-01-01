@@ -5,6 +5,7 @@ package kyper
 @MustBeDocumented
 public annotation class Help(val help: String)
 
+// TODO: support exists
 @Target(AnnotationTarget.VALUE_PARAMETER)
 @Retention(AnnotationRetention.RUNTIME)
 @MustBeDocumented

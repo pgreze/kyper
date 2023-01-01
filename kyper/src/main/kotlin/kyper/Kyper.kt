@@ -23,9 +23,9 @@ public fun kyper(
     Kyper(help).apply(init)
 
 public class Kyper(
-    private val help: String? = null,
+    internal val help: String? = null,
 ) {
-    private val commands = mutableMapOf<String, Command>()
+    internal val commands = mutableMapOf<String, Command>()
 
     public fun register(command: KFunction<*>): Kyper = this.also {
         commands[command.name] = Command.Function(command)
@@ -77,10 +77,8 @@ public class Kyper(
 
     public operator fun invoke(args: Array<out String>): Unit =
         when {
-            commands.isEmpty() -> {
-                System.err.println("No command registered")
-                exitProcess(1)
-            }
+            commands.isEmpty() ->
+                throw IllegalStateException("No command registered")
 
             args.firstOrNull() in HELP_FLAGS ->
                 args.getOrNull(1)

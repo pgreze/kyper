@@ -1,8 +1,6 @@
 package kyper
 
-import java.io.ByteArrayOutputStream
 import java.io.File
-import java.io.PrintStream
 
 enum class Choice { OK, NO }
 
@@ -35,16 +33,14 @@ fun functionWithDefaults(
 ): Array<Any> = // Notice List is converted to Array when returned by
     arrayOf(file, repeat, flag, many.copyOf())
 
-fun captureStdout(block: () -> Unit): String {
-    val array = ByteArrayOutputStream()
-    val stream = PrintStream(array)
-    val oldOut = System.out
-    System.setOut(stream)
-    try {
-        block()
-    } finally {
-        System.setOut(oldOut)
-        stream.close()
+class CaptureInvocations {
+    val invocations = mutableListOf<List<String>>()
+
+    fun greet(name: String) {
+        invocations.add(listOf("greet", name))
     }
-    return array.toString()
+
+    fun bye(name: String) {
+        invocations.add(listOf("bye", name))
+    }
 }
