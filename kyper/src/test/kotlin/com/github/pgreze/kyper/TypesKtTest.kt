@@ -1,4 +1,4 @@
-package kyper
+package com.github.pgreze.kyper
 
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain

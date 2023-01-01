@@ -1,4 +1,4 @@
-package kyper
+package com.github.pgreze.kyper
 
 @Target(AnnotationTarget.FUNCTION, AnnotationTarget.VALUE_PARAMETER)
 @Retention(AnnotationRetention.RUNTIME)

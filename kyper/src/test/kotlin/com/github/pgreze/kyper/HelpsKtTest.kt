@@ -1,4 +1,4 @@
-package kyper
+package com.github.pgreze.kyper
 
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test

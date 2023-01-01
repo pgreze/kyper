@@ -76,8 +76,8 @@ We can start by defining a simple function handling our logic:
 ```kotlin
 #!/usr/bin/env kotlinc -script
 
-import kyper.Help
-import kyper.kyper
+import com.github.pgreze.kyper.Help
+import com.github.pgreze.kyper.kyper
 
 @Help("function help message")
 fun main(
@@ -121,7 +121,7 @@ without exposing them as command:
 ```kotlin
 #!/usr/bin/env kotlinc -script
 
-import kyper.kyper
+import com.github.pgreze.kyper.kyper
 
 fun main(name: String) {
     greet(name)
@@ -146,7 +146,7 @@ But having several `public` functions will turn our application into a multi-com
 ```kotlin
 #!/usr/bin/env kotlinc -script
 
-import kyper.kyper
+import com.github.pgreze.kyper.kyper
 
 @Help("Say hello in English")
 fun hello(name: String) {
@@ -231,7 +231,7 @@ and so this library is also providing a similar syntax based on lambdas:
 @file:DependsOn("/Users/pgreze/git/pgreze/kyper/kyper/build/libs/kyper.jar")
 @file:Suppress("OPT_IN_USAGE")
 
-import kyper.kyper
+import com.github.pgreze.kyper.kyper
 
 kyper(help = "Run multiple commands from Kotlin script with ease") {
     register(name = "time", help = "Display current timestamp") { ->

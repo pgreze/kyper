@@ -1,4 +1,4 @@
-package kyper
+package com.github.pgreze.kyper
 
 public class KyperExit(
     public val returnCode: Int = 0,

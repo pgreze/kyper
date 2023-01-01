@@ -3,7 +3,7 @@
 @file:DependsOn("/Users/pgreze/git/pgreze/kyper/kyper/build/libs/kyper.jar")
 @file:Suppress("OPT_IN_USAGE")
 
-import kyper.kyper
+import com.github.pgreze.kyper.kyper
 
 kyper(help = "Run multiple commands from Kotlin script with ease") {
     register(name = "time", help = "Display current timestamp") { ->

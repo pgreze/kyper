@@ -1,4 +1,4 @@
-package kyper
+package com.github.pgreze.kyper
 
 import kotlin.reflect.KFunction
 import kotlin.reflect.KParameter

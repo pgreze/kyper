@@ -1,4 +1,4 @@
-package kyper
+package com.github.pgreze.kyper
 
 import io.kotest.matchers.collections.shouldHaveSingleElement
 import io.kotest.matchers.shouldBe

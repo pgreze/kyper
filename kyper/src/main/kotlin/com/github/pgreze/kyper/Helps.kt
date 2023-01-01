@@ -1,4 +1,4 @@
-package kyper
+package com.github.pgreze.kyper
 
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.isSubtypeOf

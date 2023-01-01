@@ -2,8 +2,8 @@
 
 @file:DependsOn("/Users/pgreze/git/pgreze/kyper/kyper/build/libs/kyper.jar")
 
-import kyper.Help
-import kyper.kyper
+import com.github.pgreze.kyper.Help
+import com.github.pgreze.kyper.kyper
 
 @Help("function help message")
 fun hello(

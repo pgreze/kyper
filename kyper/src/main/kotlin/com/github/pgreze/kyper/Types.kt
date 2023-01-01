@@ -1,4 +1,4 @@
-package kyper
+package com.github.pgreze.kyper
 
 import java.io.File
 import java.math.BigDecimal
