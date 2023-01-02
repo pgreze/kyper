@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>ForbiddenComment:Annotations.kt$Exists$// TODO: support exists</ID>
+    <ID>ForbiddenComment:Command.kt$Command.Function$// TODO: support positional arguments</ID>
+  </CurrentIssues>
+</SmellBaseline>

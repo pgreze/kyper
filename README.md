@@ -1,4 +1,4 @@
-# kyper [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) ![Build](https://github.com/pgreze/kyper/workflows/Build/badge.svg) [![codecov](https://codecov.io/gh/pgreze/kotlin-process/branch/main/graph/badge.svg?token=PDyl2T0EEB)](https://codecov.io/gh/pgreze/kyper)
+# kyper [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![](https://github.com/pgreze/kyper/actions/workflows/main.yml/badge.svg)](https://github.com/pgreze/kyper/actions/workflows/main.yml) [![codecov](https://codecov.io/gh/pgreze/kotlin-process/branch/main/graph/badge.svg?token=PDyl2T0EEB)](https://codecov.io/gh/pgreze/kyper)
 
 Functional Kotlin friendly way to create command line applications.
 
@@ -48,7 +48,7 @@ I would stick with [clikt](https://ajalt.github.io/clikt/)
 or any alternative not working on ~magic~ reflection
 and/or implicit behaviors as this library is doing.
 
-## Installation  [![central](https://maven-badges.herokuapp.com/maven-central/com.github.pgreze/kyper/badge.svg?style={style})](https://search.maven.org/artifact/com.github.pgreze/kyper) [![](https://img.shields.io/badge/Kotlin-1.7.22-blue)](https://kotlinlang.org/)
+## Installation  [![central](https://maven-badges.herokuapp.com/maven-central/com.github.pgreze/kyper/badge.svg?style={style})](https://search.maven.org/artifact/com.github.pgreze/kyper) ![](https://img.shields.io/badge/Java-11-blue) [![](https://img.shields.io/badge/Kotlin-1.7.22-blue)](https://kotlinlang.org/)
 
 ```kotlin
 repositories {

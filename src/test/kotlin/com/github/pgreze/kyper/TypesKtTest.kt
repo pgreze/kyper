@@ -40,6 +40,7 @@ class TypesKtTest {
         private val kFunction = MyClass::class.primaryConstructor!!
         private val instance = kFunction.callBy(mapOf())
 
+        @Suppress("UnusedPrivateMember")
         @JvmStatic
         private fun typeToValueProvider(): Stream<Arguments> =
             MyClass::class.declaredMemberProperties
@@ -60,36 +61,24 @@ class TypesKtTest {
         fun `convert vararg string`() {
             val args = (0..2).map { "a$it" }.toTypedArray()
             typeOf<Array<out String>>().convert(args, 1)
-                .shouldBeTypeOf<Array<out String>> {
-                    arrayOf(
-                        "a1",
-                        "a2",
-                    )
-                }
+                .shouldBeTypeOf<Array<out String>>()
+                .shouldBe(arrayOf("a1", "a2"))
         }
 
         @Test
         fun `convert vararg file`() {
             val args = (0..2).map { "f$it" }.toTypedArray()
             typeOf<Array<out File>>().convert(args, 1)
-                .shouldBeTypeOf<Array<out File>> {
-                    arrayOf(
-                        File("f1"),
-                        File("f2"),
-                    )
-                }
+                .shouldBeTypeOf<Array<out File>>()
+                .shouldBe(arrayOf(File("f1"), File("f2")))
         }
 
         @Test
         fun `convert vararg path`() {
-            val args = (0..2).map { "f$it" }.toTypedArray()
+            val args = (0..2).map { "p$it" }.toTypedArray()
             typeOf<Array<out Path>>().convert(args, 1)
-                .shouldBeTypeOf<Array<out Path>> {
-                    arrayOf(
-                        Path.of("f1"),
-                        Path.of("f2"),
-                    )
-                }
+                .shouldBeTypeOf<Array<out Path>>()
+                .shouldBe(arrayOf(Path.of("p1"), Path.of("p2")))
         }
     }
 

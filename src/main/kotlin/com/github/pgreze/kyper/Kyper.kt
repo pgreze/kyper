@@ -22,6 +22,7 @@ public fun kyper(
 ): Kyper =
     Kyper(help).apply(init)
 
+@Suppress("TooManyFunctions", "MagicNumber")
 public class Kyper(
     internal val help: String? = null,
 ) {
@@ -75,6 +76,7 @@ public class Kyper(
         invoke(args)
     }
 
+    @Suppress("UseCheckOrError")
     public operator fun invoke(args: Array<out String>): Unit =
         when {
             commands.isEmpty() ->

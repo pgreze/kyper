@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED_PARAMETER", "unused", "UnusedPrivateMember")
+
 package com.github.pgreze.kyper
 
 import java.io.File
@@ -10,7 +12,7 @@ fun stringAndChoice(
     string: String,
     @Help("help for choice")
     choice: Choice,
-) {}
+) { println("stringAndChoice") }
 
 @Help("function usage help")
 fun boolAndFile(
@@ -18,7 +20,7 @@ fun boolAndFile(
     bool: Boolean,
     @Help("help for file")
     file: File,
-) {}
+) { println("boolAndFile") }
 
 @Help("helpful text")
 fun functionWithDefaults(
@@ -32,6 +34,14 @@ fun functionWithDefaults(
     vararg many: String,
 ): Array<Any> = // Notice List is converted to Array when returned by
     arrayOf(file, repeat, flag, many.copyOf())
+
+class PublicInternalPrivate {
+    public fun public() { println("public") }
+
+    internal fun internal() { println("internal") }
+
+    private fun private() { println("private") }
+}
 
 class CaptureInvocations {
     val invocations = mutableListOf<List<String>>()

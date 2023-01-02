@@ -9,6 +9,7 @@ import kotlin.reflect.KType
 import kotlin.reflect.full.isSubtypeOf
 import kotlin.reflect.typeOf
 
+@Suppress("CyclomaticComplexMethod")
 internal fun KType.convert(args: Array<out String>, index: Int): Any =
     when (this) {
         typeOf<String>() ->
@@ -55,7 +56,7 @@ internal fun KType.convert(args: Array<out String>, index: Int): Any =
                 args.drop(index).map(Path::of).toOutArray()
 
             else ->
-                throw RuntimeException("Unsupported $this")
+                throw IllegalArgumentException("Unsupported $this")
         }
     }
 

@@ -15,7 +15,7 @@ import kotlin.reflect.typeOf
 class CommandTest {
 
     @Nested
-    inner class Function {
+    inner class Functions {
 
         private val command = Command.Function(::functionWithDefaults)
 
@@ -45,15 +45,14 @@ class CommandTest {
 
             val res = command.call(args)
 
-            res.shouldBeTypeOf<Array<Any>> {
-                arrayOf(File("myfile"), 3, true, arrayOf("f1", "f2", "f3"))
-            }
+            res.shouldBeTypeOf<Array<Any>>()
+                .shouldBe(arrayOf(File("myfile"), 3, true, arrayOf("f1", "f2", "f3")))
         }
     }
 
     @OptIn(ExperimentalReflectionOnLambdas::class)
     @Nested
-    inner class Lambda {
+    inner class Lambdas {
 
         private val calls = mutableListOf<List<String>>()
         private val lambda: (String, String) -> Unit =

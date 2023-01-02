@@ -6,13 +6,6 @@ import org.junit.jupiter.api.Test
 import kotlin.reflect.jvm.ExperimentalReflectionOnLambdas
 
 class KyperKtTest {
-    class PublicInternalPrivate {
-        fun public() {}
-
-        internal fun internal() {}
-
-        private fun private() {}
-    }
 
     @Test
     fun `kyper on instance`() {
