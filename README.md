@@ -208,17 +208,23 @@ fun main(
     file: File = File("file"),
     path: Path = Path.of("path"),
     choice: Choice = Choice.NO,
+    vararg strings: String, // For vararg, only String/File are supported.
 ) {
     TODO()
 }
 
 enum class Choice { YES, NO }
-
-kyper().invoke(args)
 ```
 
-Noticed we provided default values for each value,
-so each of these parameters are optionals as well.
+### Default values (unstable)
+
+As shown in the last code block,
+default values are supported
+as long as they're at the end of the method.
+
+🚨️ WIP: current implementation is quite simple,
+just based on parameter positioning,
+and not allowing any `--flag` logic.
 
 ## Usage with lambda(s) (experimental)
 
