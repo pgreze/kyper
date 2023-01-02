@@ -19,8 +19,12 @@ public fun kyper(
     Kyper(help).apply(init)
 
 /**
- * Convenient method allowing to create a [Kyper] instance
- * provisioned with [Kyper.registerPublicMethods] for the given instance.
+ * Initialize a new [Kyper] with [Kyper.registerPublicMethods] for the given receiver.
+ *
+ * Example: **receiver.kyper()**
+ *
+ * One line running a Kotlin Script as a CLI: **kyper().invoke(args)**
+ *
  * @param help see [Kyper.help]
  * @return the initialized [Kyper] instance.
  */
