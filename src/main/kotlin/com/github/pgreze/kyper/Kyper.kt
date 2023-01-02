@@ -7,14 +7,10 @@ import kotlin.reflect.jvm.reflect
 import kotlin.system.exitProcess
 
 /**
- * Convenient method allowing to create a [Kyper] instance
- * provisioned with [Kyper.registerPublicMethods] for the given instance.
- */
-public fun Any.kyper(help: String? = null): Kyper =
-    Kyper(help).registerPublicMethods(instance = this)
-
-/**
+ * Register methods/lambdas in a DSL style.
+ * @param help see [Kyper.help]
  * @param init enable a DSL like syntax with [Kyper.register] methods.
+ * @return the initialized [Kyper] instance.
  */
 public fun kyper(
     help: String? = null,
@@ -22,12 +18,35 @@ public fun kyper(
 ): Kyper =
     Kyper(help).apply(init)
 
+/**
+ * Convenient method allowing to create a [Kyper] instance
+ * provisioned with [Kyper.registerPublicMethods] for the given instance.
+ * @param help see [Kyper.help]
+ * @return the initialized [Kyper] instance.
+ */
+public fun Any.kyper(help: String? = null): Kyper =
+    Kyper(help).registerPublicMethods(instance = this)
+
+/**
+ * Exposes [register] functions to register functions/lambdas as commands,
+ * and run them with the [invoke] functions.
+ * @see kyper
+ * @see Any.kyper
+ */
 @Suppress("TooManyFunctions", "MagicNumber")
 public class Kyper(
+    /** The global help message when ran in multi-command mode. */
     internal val help: String? = null,
 ) {
     internal val commands = mutableMapOf<String, Command>()
 
+    /**
+     * Register a Kotlin function as command.
+     *
+     * Example: **kyper.register(::myFunc)**
+     *
+     * @see Help
+     */
     public fun register(command: KFunction<*>): Kyper = this.also {
         commands[command.name] = Command.Function(command)
     }
@@ -62,6 +81,13 @@ public class Kyper(
     public fun unregister(name: String): Boolean =
         commands.remove(name) != null
 
+    /**
+     * Uses reflection to register all public methods of the given [instance] as commands.
+     *
+     * Example: **kyper.registerPublicMethods(MyObject)**
+     *
+     * Example: **kyper.registerPublicMethods(MyClass())**
+     */
     public fun registerPublicMethods(instance: Any): Kyper = this.also {
         val defaultMethods = arrayOf("equals", "hashCode", "toString")
         instance::class.members.asSequence()

@@ -4,5 +4,7 @@
   <CurrentIssues>
     <ID>ForbiddenComment:Annotations.kt$Exists$// TODO: support exists</ID>
     <ID>ForbiddenComment:Command.kt$Command.Function$// TODO: support positional arguments</ID>
+    <ID>MatchingDeclarationName:Annotations.kt$Help</ID>
+    <ID>UnusedPrivateClass:Annotations.kt$Exists</ID>
   </CurrentIssues>
 </SmellBaseline>
