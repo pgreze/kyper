@@ -1,4 +1,4 @@
-# kyper [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![](https://github.com/pgreze/kyper/actions/workflows/main.yml/badge.svg)](https://github.com/pgreze/kyper/actions/workflows/main.yml) [![codecov](https://codecov.io/gh/pgreze/kotlin-process/branch/main/graph/badge.svg?token=PDyl2T0EEB)](https://codecov.io/gh/pgreze/kyper)
+# kyper [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![](https://github.com/pgreze/kyper/actions/workflows/main.yml/badge.svg)](https://github.com/pgreze/kyper/actions/workflows/main.yml) [![codecov](https://codecov.io/gh/pgreze/kyper/branch/main/graph/badge.svg?token=T5R37803P4)](https://codecov.io/gh/pgreze/kyper)
 
 Functional Kotlin friendly way to create command line applications.
 
