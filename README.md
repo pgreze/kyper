@@ -2,7 +2,7 @@
 
 Functional Kotlin friendly way to create command line applications.
 
-It's coming from the basic need of having a function like:
+It comes from the basic need to have a function like:
 
 ```kotlin
 fun main(
@@ -16,9 +16,9 @@ fun main(
 enum class Mode { APPEND, OVERWRITE }
 ```
 
-with all the expected behaviors we're expecting when using it in our code:
-- support more than String like File/Path/Enum/etc,
-- mode being an optional parameter,
+with all the behaviors we expect when using it in our code:
+- supports more data types than just String, i.e. File/Path/Enum/etc
+- mode being an optional parameter
 
 and turns it into a command line application powered by Kotlin script.
 
@@ -34,19 +34,19 @@ Also naming is hard 😇
 > But we already have [clikt](https://ajalt.github.io/clikt/)? (or any alternative)
 
 Correct, but I try to keep my Kotlin scripts as small as possible,
-and have to deal with classes is not what I would describe as simple.
+and having to deal with classes is not what I would describe as simple.
 
 Also chained property delegates are great,
 but I always need to read the documentation to figure out all the options.
 
 > So let's migrate everything to this wonderful library?
 
-For simple use cases like Kotlin scripts, feel free.
+For simple usecases like Kotlin scripts, feel free.
 
 For more complex applications, where readability is important,
 I would stick with [clikt](https://ajalt.github.io/clikt/)
-or any alternative not working on ~magic~ reflection
-and/or implicit behaviors as this library is doing.
+or any alternative not relying on ~magic~ reflection
+and/or implicit behaviors like this library is doing.
 
 ## Installation  [![central](https://maven-badges.herokuapp.com/maven-central/com.github.pgreze/kyper/badge.svg?style={style})](https://search.maven.org/artifact/com.github.pgreze/kyper) ![](https://img.shields.io/badge/Java-11-blue) [![](https://img.shields.io/badge/Kotlin-1.7.22-blue)](https://kotlinlang.org/)
 
@@ -100,7 +100,7 @@ hello there
 Notice we also defined help messages for both the command and its parameter:
 
 ```bash
-$ # Use `--` to indicates following arguments to the script, not kotlinc itself
+$ # Use `--` to indicate that the following arguments are for the script, not kotlinc itself
 $ ./script.main.kts -- --help
 Usage: main NAME
 
@@ -116,7 +116,7 @@ Arguments:
 ### Only public methods are exported as commands
 
 Our script can declare more internal/private methods,
-without exposing them as command:
+without exposing them as commands:
 
 ```kotlin
 #!/usr/bin/env kotlinc -script
@@ -193,7 +193,7 @@ Arguments:
 
 ### Handle more than strings as arguments
 
-Following types are supported:
+The following types are supported:
 
 ```kotlin
 fun main(
@@ -222,14 +222,14 @@ As shown in the last code block,
 default values are supported
 as long as they're at the end of the method.
 
-🚨️ WIP: current implementation is quite simple,
+🚨️ WIP: the current implementation is quite simple; it is
 just based on parameter positioning,
-and not allowing any `--flag` logic.
+and does not allow any `--flag` logic.
 
 ## Usage with lambda(s) (experimental)
 
-Maybe the Kotlin DSL syntax is something you're looking for in your Kotlin script,
-and so this library is also providing a similar syntax based on lambdas:
+If the Kotlin DSL syntax is something you're looking for in your Kotlin script,
+this library also provides a similar syntax based on lambdas:
 
 ```kotlin
 #!/usr/bin/env kotlinc -script
@@ -250,10 +250,10 @@ kyper(help = "Run multiple commands from Kotlin script with ease") {
 }.invoke(args)
 ```
 
-But this is coming with restrictions:
+But this comes with restrictions:
 - no default argument(s),
 - up to 4 arguments,
-- only String is supported.
+- only String type is supported.
 
 This may be dropped in the future if we cannot reach
-the same support as with the functions based usage.
+the same support level as the functions-based usage.
