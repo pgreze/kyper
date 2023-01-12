@@ -76,12 +76,13 @@ We can start by defining a simple function handling our logic:
 ```kotlin
 #!/usr/bin/env kotlinc -script
 
-import com.github.pgreze.kyper.Help
+import com.github.pgreze.kyper.Command
+import com.github.pgreze.kyper.Parameter
 import com.github.pgreze.kyper.kyper
 
-@Help("function help message")
+@Commmand("function help message")
 fun main(
-    @Help("the name to greet")
+    @Parameter("the name to greet")
     name: String
 ) {
     println("hello $name")
@@ -115,19 +116,21 @@ Arguments:
 
 ### Only public methods are exported as commands
 
-Our script can declare more internal/private methods,
+Our script can declare more methods,
 without exposing them as command:
 
 ```kotlin
 #!/usr/bin/env kotlinc -script
 
+import com.github.pgreze.kyper.Command
 import com.github.pgreze.kyper.kyper
 
+@Command
 fun main(name: String) {
     greet(name)
 }
 
-private fun greet(name: String) {
+fun greet(name: String) {
     println("Hello $name")
 }
 
@@ -141,19 +144,20 @@ $ ./script.main.kts there
 hello there
 ```
 
-But having several `public` functions will turn our application into a multi-command mode:
+But having several `@Command` functions will turn our application into a multi-command mode:
 
 ```kotlin
 #!/usr/bin/env kotlinc -script
 
+import com.github.pgreze.kyper.Command
 import com.github.pgreze.kyper.kyper
 
-@Help("Say hello in English")
+@Command("Say hello in English")
 fun hello(name: String) {
     println("hello $name")
 }
 
-@Help("Say hello in French")
+@Command("Say hello in French")
 fun bonjour(name: String) {
     println("bonjour $name")
 }
@@ -234,7 +238,6 @@ and so this library is also providing a similar syntax based on lambdas:
 ```kotlin
 #!/usr/bin/env kotlinc -script
 
-@file:DependsOn("/Users/pgreze/git/pgreze/kyper/kyper/build/libs/kyper.jar")
 @file:Suppress("OPT_IN_USAGE")
 
 import com.github.pgreze.kyper.kyper

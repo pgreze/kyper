@@ -1,7 +1,7 @@
 package com.github.pgreze.kyper
 
 import kotlin.reflect.KFunction
-import kotlin.reflect.KVisibility
+import kotlin.reflect.full.hasAnnotation
 import kotlin.reflect.jvm.ExperimentalReflectionOnLambdas
 import kotlin.reflect.jvm.reflect
 import kotlin.system.exitProcess
@@ -19,7 +19,7 @@ public fun kyper(
     Kyper(help).apply(init)
 
 /**
- * Initialize a new [Kyper] with [Kyper.registerPublicMethods] for the given receiver.
+ * Initialize a new [Kyper] with [Kyper.registerMethods] for the given receiver.
  *
  * Example: **receiver.kyper()**
  *
@@ -29,7 +29,7 @@ public fun kyper(
  * @return the initialized [Kyper] instance.
  */
 public fun Any.kyper(help: String? = null): Kyper =
-    Kyper(help).registerPublicMethods(instance = this)
+    Kyper(help).registerMethods(instance = this)
 
 /**
  * Exposes [register] functions to register functions/lambdas as commands,
@@ -42,63 +42,64 @@ public class Kyper(
     /** The global help message when ran in multi-command mode. */
     internal val help: String? = null,
 ) {
-    internal val commands = mutableMapOf<String, Command>()
+    internal val commands = mutableMapOf<String, Kommand>()
 
     /**
      * Register a Kotlin function as command.
      *
      * Example: **kyper.register(::myFunc)**
      *
-     * @see Help
+     * @see Parameter
      */
     public fun register(command: KFunction<*>): Kyper = this.also {
-        commands[command.name] = Command.Function(command)
+        commands[command.name] = Kommand.Function(command)
     }
 
     @ExperimentalReflectionOnLambdas
     public fun register(name: String, help: String? = null, command: () -> Unit): Kyper = this.also {
-        commands[name] = Command.Lambda(name, help, command.reflect()!!) { command() }
+        commands[name] = Kommand.Lambda(name, help, command.reflect()!!) { command() }
     }
 
     @ExperimentalReflectionOnLambdas
     public fun register(name: String, help: String? = null, command: (String) -> Unit): Kyper = this.also {
-        commands[name] = Command.Lambda(name, help, command.reflect()!!) { command(it[0]) }
+        commands[name] = Kommand.Lambda(name, help, command.reflect()!!) { command(it[0]) }
     }
 
     @ExperimentalReflectionOnLambdas
     public fun register(name: String, help: String? = null, command: (String, String) -> Unit): Kyper = this.also {
-        commands[name] = Command.Lambda(name, help, command.reflect()!!) { command(it[0], it[1]) }
+        commands[name] = Kommand.Lambda(name, help, command.reflect()!!) { command(it[0], it[1]) }
     }
 
     @ExperimentalReflectionOnLambdas
     public fun register(name: String, help: String? = null, command: (String, String, String) -> Unit): Kyper =
         this.also {
-            commands[name] = Command.Lambda(name, help, command.reflect()!!) { command(it[0], it[1], it[2]) }
+            commands[name] = Kommand.Lambda(name, help, command.reflect()!!) { command(it[0], it[1], it[2]) }
         }
 
     @ExperimentalReflectionOnLambdas
     public fun register(name: String, help: String? = null, command: (String, String, String, String) -> Unit): Kyper =
         this.also {
-            commands[name] = Command.Lambda(name, help, command.reflect()!!) { command(it[0], it[1], it[2], it[3]) }
+            commands[name] = Kommand.Lambda(name, help, command.reflect()!!) { command(it[0], it[1], it[2], it[3]) }
         }
 
     public fun unregister(name: String): Boolean =
         commands.remove(name) != null
 
     /**
-     * Uses reflection to register all public methods of the given [instance] as commands.
+     * Uses reflection to register as command all methods annotated with @Command,
+     * or all public methods if no @Command annotated method was found,
+     * for the given [instance].
      *
-     * Example: **kyper.registerPublicMethods(MyObject)**
+     * Example: **kyper.registerMethods(MyObject)**
      *
-     * Example: **kyper.registerPublicMethods(MyClass())**
+     * Example: **kyper.registerMethods(MyClass())**
      */
-    public fun registerPublicMethods(instance: Any): Kyper = this.also {
+    public fun registerMethods(instance: Any): Kyper = this.also {
         val defaultMethods = arrayOf("equals", "hashCode", "toString")
-        instance::class.members.asSequence()
-            .filterIsInstance<KFunction<*>>()
+        instance::class.members.filterIsInstance<KFunction<*>>()
             .filter { it.name !in defaultMethods }
-            .filter { it.visibility == KVisibility.PUBLIC }
-            .forEach { commands[it.name] = Command.Function(it, receiver = instance) }
+            .filter { it.hasAnnotation<Command>() }
+            .forEach { commands[it.name] = Kommand.Function(it, receiver = instance) }
     }
 
     @JvmName("invokeWith")
@@ -145,7 +146,7 @@ public class Kyper(
             }
         }
 
-    private fun call(command: Command, args: Array<out String>) {
+    private fun call(command: Kommand, args: Array<out String>) {
         try {
             command.call(args)
         } catch (e: PrintHelp) {

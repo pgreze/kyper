@@ -6,50 +6,49 @@ import java.io.File
 
 enum class Choice { OK, NO }
 
-@Help("function usage doc")
+@Command("function usage doc")
 fun stringAndChoice(
-    @Help("help for string")
+    @Parameter("help for string")
     string: String,
-    @Help("help for choice")
+    @Parameter("help for choice")
     choice: Choice,
 ) { println("stringAndChoice") }
 
-@Help("function usage help")
+@Command("function usage help")
 fun boolAndFile(
-    @Help("help for bool")
+    @Parameter("help for bool")
     bool: Boolean,
-    @Help("help for file")
+    @Parameter("help for file")
     file: File,
 ) { println("boolAndFile") }
 
-@Help("helpful text")
+@Command("helpful text")
 fun functionWithDefaults(
-    @Help("help for file")
+    @Parameter("help for file")
     file: File,
-    @Help("help for repeat")
+    @Parameter("help for repeat")
     repeat: Int = 2,
-    @Help("help for flag")
+    @Parameter("help for flag")
     flag: Boolean = false,
-    @Help("help for many")
+    @Parameter("help for many")
     vararg many: String,
 ): Array<Any> = // Notice List is converted to Array when returned by
     arrayOf(file, repeat, flag, many.copyOf())
 
-class PublicInternalPrivate {
-    public fun public() { println("public") }
-
-    internal fun internal() { println("internal") }
-
-    private fun private() { println("private") }
+class SingleCommand {
+    @Command
+    public operator fun invoke() { println("bonjour") }
 }
 
 class CaptureInvocations {
     val invocations = mutableListOf<List<String>>()
 
+    @Command
     fun greet(name: String) {
         invocations.add(listOf("greet", name))
     }
 
+    @Command
     fun bye(name: String) {
         invocations.add(listOf("bye", name))
     }
