@@ -114,10 +114,9 @@ Arguments:
   NAME  the name to greet
 ```
 
-### Only public methods are exported as commands
+### Only @Command annotated methods are exported
 
-Our script can declare more methods,
-without exposing them as command:
+Our script can declare more methods, without exposing them as command:
 
 ```kotlin
 #!/usr/bin/env kotlinc -script
