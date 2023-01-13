@@ -8,8 +8,8 @@ import java.io.PrintStream
 class HelpsKtTest {
 
     private val commands = listOf(
-        Command.Function(::stringAndChoice),
-        Command.Function(::boolAndFile),
+        Kommand.Function(::stringAndChoice),
+        Kommand.Function(::boolAndFile),
     )
 
     @Test

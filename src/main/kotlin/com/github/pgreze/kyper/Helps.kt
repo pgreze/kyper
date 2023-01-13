@@ -6,7 +6,7 @@ import kotlin.reflect.typeOf
 
 internal val HELP_FLAGS = arrayOf("-h", "--help")
 
-internal fun Collection<Command>.showHelp(help: String?) {
+internal fun Collection<Kommand>.showHelp(help: String?) {
     println("Usage: [OPTIONS] COMMAND [ARGS]...")
     println()
     help?.let {
@@ -21,7 +21,7 @@ internal fun Collection<Command>.showHelp(help: String?) {
     }
 }
 
-internal fun Command.showHelp() {
+internal fun Kommand.showHelp() {
     val params = parameters.joinToString(" ") {
         val name = it.name!!.uppercase()
         if (it.isOptional) "[$name]" else name
@@ -38,6 +38,7 @@ internal fun Command.showHelp() {
 
     parameters.printSection("Arguments") {
         val name = it.name!!.uppercase()
+
         val choices = when {
             it.type.isSubtypeOf(typeOf<Enum<*>>()) ->
                 it.type.enumValues().map { v -> v.name }
@@ -45,8 +46,10 @@ internal fun Command.showHelp() {
                 listOf("true", "false")
             else -> null
         }?.joinToString(prefix = " [", postfix = "]") ?: ""
-        val help = it.findAnnotation<Help>()?.help
-        name + choices to help
+
+        val parameter = it.findAnnotation<Parameter>()
+
+        name + choices to parameter?.help
     }
 }
 

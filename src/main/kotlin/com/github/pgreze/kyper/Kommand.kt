@@ -5,7 +5,7 @@ import kotlin.reflect.KParameter
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.jvm.ExperimentalReflectionOnLambdas
 
-internal sealed class Command {
+internal sealed class Kommand {
 
     public abstract val name: String
 
@@ -19,10 +19,10 @@ internal sealed class Command {
         private val func: KFunction<*>,
         override val name: String = func.name,
         private val receiver: Any? = null,
-    ) : Command() {
+    ) : Kommand() {
 
         override val help: String?
-            get() = func.findAnnotation<Help>()?.help
+            get() = func.findAnnotation<Command>()?.help
 
         override val parameters: List<KParameter> =
             if (receiver != null) func.parameters.drop(1) else func.parameters
@@ -44,7 +44,7 @@ internal sealed class Command {
         override val help: String? = null,
         reflect: KFunction<Unit>,
         private val wrapper: (Array<out String>) -> Any?,
-    ) : Command() {
+    ) : Kommand() {
         @ExperimentalReflectionOnLambdas
         override val parameters: List<KParameter> = reflect.parameters
         override fun call(args: Array<out String>): Any? = wrapper(args)

@@ -17,7 +17,7 @@ class CommandTest {
     @Nested
     inner class Functions {
 
-        private val command = Command.Function(::functionWithDefaults)
+        private val command = Kommand.Function(::functionWithDefaults)
 
         @Test
         fun name() {
@@ -58,7 +58,7 @@ class CommandTest {
         private val lambda: (String, String) -> Unit =
             fun(s1: String, s2: String) { calls.add(listOf(s1, s2)) }
 
-        private val command = Command.Lambda(
+        private val command = Kommand.Lambda(
             name = "lambda name",
             help = "the help",
             reflect = lambda.reflect()!!,

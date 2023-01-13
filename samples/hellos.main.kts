@@ -1,18 +1,18 @@
 #!/usr/bin/env kotlinc -script
 
 @file:Repository("https://repo.maven.apache.org/maven2/")
-@file:DependsOn("com.github.pgreze:kyper:0.2")
-// @file:DependsOn("/Users/pgreze/git/pgreze/kyper/build/libs/kyper.jar")
+@file:DependsOn("com.github.pgreze:kyper:0.3")
 
-import com.github.pgreze.kyper.Help
+import com.github.pgreze.kyper.Command
+import com.github.pgreze.kyper.Parameter
 import com.github.pgreze.kyper.kyper
 
-@Help("Say hello in English")
+@Command("Say hello in English")
 fun hello(name: String) {
     println("hello $name")
 }
 
-@Help("Say hello in French")
+@Command("Say hello in French")
 fun bonjour(name: String) {
     println("bonjour $name")
 }

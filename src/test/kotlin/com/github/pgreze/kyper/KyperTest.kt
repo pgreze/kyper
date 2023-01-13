@@ -93,7 +93,7 @@ class KyperTest {
         @Test
         fun `invoke many commands`() {
             val capture = CaptureInvocations()
-            val kyper = Kyper().registerPublicMethods(capture)
+            val kyper = Kyper().registerMethods(capture)
 
             kyper.invoke("bye", "you")
 
@@ -103,11 +103,11 @@ class KyperTest {
         @Test
         fun `invoke --help with a single command`() {
             val globalHelp = "global help message"
-            val kyper = PublicInternalPrivate().kyper(help = globalHelp)
+            val kyper = SingleCommand().kyper(help = globalHelp)
 
             val stdout = captureStdout { kyper.invoke("--help") }
 
-            stdout shouldContain "public"
+            stdout shouldContain "invoke"
             stdout shouldNotContain globalHelp
         }
 

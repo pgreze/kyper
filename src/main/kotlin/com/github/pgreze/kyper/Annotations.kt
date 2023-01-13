@@ -1,14 +1,16 @@
 package com.github.pgreze.kyper
 
-/**
- * Add help message for:
- * - a function registered with [Kyper.register]
- * - a parameter of a registered function.
- */
-@Target(AnnotationTarget.FUNCTION, AnnotationTarget.VALUE_PARAMETER)
+/** Register a function as a kyper command. */
+@Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)
 @MustBeDocumented
-public annotation class Help(val help: String)
+public annotation class Command(val help: String = "")
+
+/** Add metadata for a function parameter annotated with [Command]. */
+@Target(AnnotationTarget.VALUE_PARAMETER)
+@Retention(AnnotationRetention.RUNTIME)
+@MustBeDocumented
+public annotation class Parameter(val help: String)
 
 // TODO: support exists
 @Target(AnnotationTarget.VALUE_PARAMETER)
