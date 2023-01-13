@@ -1,15 +1,15 @@
 #!/usr/bin/env kotlinc -script
 
 @file:Repository("https://repo.maven.apache.org/maven2/")
-@file:DependsOn("com.github.pgreze:kyper:0.2")
-// @file:DependsOn("/Users/pgreze/git/pgreze/kyper/build/libs/kyper.jar")
+@file:DependsOn("com.github.pgreze:kyper:0.3")
 
-import com.github.pgreze.kyper.Help
+import com.github.pgreze.kyper.Command
+import com.github.pgreze.kyper.Parameter
 import com.github.pgreze.kyper.kyper
 
-@Help("function help message")
+@Command("function help message")
 fun hello(
-    @Help("the name to greet")
+    @Parameter("the name to greet")
     name: String
 ) {
     println("hello $name")

@@ -1,15 +1,16 @@
 #!/usr/bin/env kotlinc -script
 
 @file:Repository("https://repo.maven.apache.org/maven2/")
-@file:DependsOn("com.github.pgreze:kyper:0.2")
-// @file:DependsOn("/Users/pgreze/git/pgreze/kyper/build/libs/kyper.jar")
+@file:DependsOn("com.github.pgreze:kyper:0.3")
 
+import com.github.pgreze.kyper.Command
 import com.github.pgreze.kyper.kyper
 import java.io.File
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.nio.file.Path
 
+@Command
 fun main(
 //    string: String = "arg",
 //    int: Int = 1,
