@@ -3,8 +3,7 @@
   <ManuallySuppressedIssues/>
   <CurrentIssues>
     <ID>ForbiddenComment:Annotations.kt$Exists$// TODO: support exists</ID>
-    <ID>ForbiddenComment:Command.kt$Command.Function$// TODO: support positional arguments</ID>
-    <ID>MatchingDeclarationName:Annotations.kt$Help</ID>
+    <ID>ForbiddenComment:Kommand.kt$Kommand.Function$// TODO: support positional arguments</ID>
     <ID>UnusedPrivateClass:Annotations.kt$Exists</ID>
   </CurrentIssues>
 </SmellBaseline>

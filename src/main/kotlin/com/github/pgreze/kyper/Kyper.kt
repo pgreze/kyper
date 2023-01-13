@@ -107,7 +107,7 @@ public class Kyper(
         invoke(args)
     }
 
-    @Suppress("UseCheckOrError")
+    @Suppress("UseCheckOrError", "NAME_SHADOWING")
     public operator fun invoke(args: Array<out String>): Unit =
         when {
             commands.isEmpty() ->
