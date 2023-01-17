@@ -9,6 +9,7 @@ import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.ValueSource
 import java.io.File
 import java.math.BigDecimal
 import java.math.BigInteger
@@ -53,6 +54,14 @@ class TypesKtTest {
     @MethodSource("typeToValueProvider")
     fun convert(kType: KType, value: Any) {
         kType.convert(arrayOf("", value.toString()), 1) shouldBe value
+    }
+
+    @Test
+    fun `convert enum case insensitive`() {
+        Choice.values().forEach { value ->
+            typeOf<Choice>().convert(arrayOf(value.name.uppercase()), 0) shouldBe value
+            typeOf<Choice>().convert(arrayOf(value.name.lowercase()), 0) shouldBe value
+        }
     }
 
     @Nested
