@@ -66,7 +66,7 @@ internal fun KType.enumValues(): Array<out Enum<*>> =
     (classifier as KClass<Enum<*>>).java.enumConstants as Array<out Enum<*>>
 
 private fun KType.enumValueOf(value: String): Enum<*> =
-    enumValues().first { it.name == value }
+    enumValues().first { it.name.lowercase() == value.lowercase() }
 
 private fun List<String>.toOutArray(): Array<out String> =
     toTypedArray()

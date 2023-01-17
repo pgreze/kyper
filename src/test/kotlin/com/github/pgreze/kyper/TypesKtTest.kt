@@ -55,6 +55,14 @@ class TypesKtTest {
         kType.convert(arrayOf("", value.toString()), 1) shouldBe value
     }
 
+    @Test
+    fun `convert enum case insensitive`() {
+        Choice.values().forEach { value ->
+            typeOf<Choice>().convert(arrayOf(value.name.uppercase()), 0) shouldBe value
+            typeOf<Choice>().convert(arrayOf(value.name.lowercase()), 0) shouldBe value
+        }
+    }
+
     @Nested
     inner class Vararg {
         @Test
