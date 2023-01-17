@@ -29,8 +29,10 @@ internal sealed class Kommand {
 
         override fun call(args: Array<out String>): Any? {
             // TODO: support positional arguments
-            val paramToValue = parameters.withIndex()
-                .associate { (index, param) -> param to param.type.convert(args, index) }
+            val paramToValue = mutableMapOf<KParameter, Any>()
+            parameters.withIndex()
+                .filter { it.index < args.size }
+                .forEach { (index, param) -> paramToValue[param] = param.type.convert(args, index) }
             return if (receiver == null) {
                 func.callBy(paramToValue)
             } else {

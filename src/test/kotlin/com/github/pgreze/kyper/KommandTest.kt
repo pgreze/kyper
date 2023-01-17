@@ -40,7 +40,15 @@ class KommandTest {
         }
 
         @Test
-        fun call() {
+        fun `call with missing arguments`() {
+            val res = command.call(arrayOf("myfile"))
+
+            res.shouldBeTypeOf<Array<Any>>()
+                .shouldBe(arrayOf(File("myfile"), 2, false, arrayOf<String>()))
+        }
+
+        @Test
+        fun `call with all arguments`() {
             val args = "myfile 3 true f1 f2 f3".split(" ").toTypedArray()
 
             val res = command.call(args)
