@@ -48,12 +48,12 @@ jobs:
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-          SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
-          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
-          SIGNING_SECRET_KEY_RING_CONTENT: ${{ secrets.SIGNING_SECRET_KEY_RING_CONTENT }}
         run: |
-          export SIGNING_SECRET_KEY_RING_FILE=secret-key.gpg
-          echo $SIGNING_SECRET_KEY_RING_CONTENT | base64 -di > $SIGNING_SECRET_KEY_RING_FILE
+          SIGNING_SECRET_KEY_RING_FILE="./secret-key.gpg"
+          echo "${{ secrets.SIGNING_SECRET_KEY_RING_CONTENT }}" | base64 -di > "$SIGNING_SECRET_KEY_RING_FILE"
+          echo "signing.secretKeyRingFile=$SIGNING_SECRET_KEY_RING_FILE" >> gradle.properties
+          echo "signing.keyId=${{ secrets.SIGNING_KEY_ID }}" >> gradle.properties
+          echo "signing.password=${{ secrets.SIGNING_PASSWORD }}" >> gradle.properties
           ./gradlew publishToSonatype closeAndReleaseSonatypeStagingRepository --max-workers 1
 
       - uses: actions/upload-pages-artifact@v1

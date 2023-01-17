@@ -121,19 +121,7 @@ publishing {
         }
     }
 }
-mapOf(
-    "signing.keyId" to "SIGNING_KEY_ID",
-    "signing.password" to "SIGNING_PASSWORD",
-    "signing.secretKeyRingFile" to "SIGNING_SECRET_KEY_RING_FILE"
-).forEach { (key, envName) ->
-    val value = propOrEnv(key, envName)
-        ?.let {
-            if (key.contains("File")) {
-                rootProject.file(it).absolutePath
-            } else it
-        }
-    ext.set(key, value)
-}
+
 signing {
     sign(publishing.publications)
 }
