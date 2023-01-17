@@ -12,7 +12,7 @@ import kotlin.reflect.jvm.ExperimentalReflectionOnLambdas
 import kotlin.reflect.jvm.reflect
 import kotlin.reflect.typeOf
 
-class CommandTest {
+class KommandTest {
 
     @Nested
     inner class Functions {

@@ -7,7 +7,7 @@ import kotlin.reflect.jvm.ExperimentalReflectionOnLambdas
 
 internal sealed class Kommand {
 
-    public abstract val name: String
+    internal abstract val name: String
 
     internal abstract val help: String?
 
