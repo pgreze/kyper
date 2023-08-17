@@ -8,7 +8,8 @@ val jarFile = samplesFolder.parentFile.resolve("build/libs/")
     ?.firstOrNull { it.name.matches("kyper-[^-]+.jar".toRegex()) }
     ?: throw NullPointerException("Local jar not found")
 val localDependsOn = "@file:DependsOn(\"/${jarFile.absolutePath}\")"
-val remoteDependsOn = "@file:DependsOn(\"com.github.pgreze:kyper:0.3\")"
+// TODO: use https://mvnrepository.com/artifact/com.github.pgreze/kotlin-process to get latest version
+val remoteDependsOn = "@file:DependsOn(\"com.github.pgreze:kyper:0.4\")"
 
 samplesFolder.listFiles()?.filter { it.name.endsWith(".kts") }?.forEach { file ->
     var dependencyFound = false
