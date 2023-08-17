@@ -14,10 +14,10 @@ import kotlin.reflect.typeOf
 internal fun KType.convert(args: Array<out String>, index: Int): Any? {
     // Extend support to nullable types
     if (isMarkedNullable) {
-        if (args.size <= index) {
-            return null
+        return when {
+            args.size <= index -> null
+            else -> withNullability(false).convert(args, index)
         }
-        return withNullability(false).convert(args, index)
     }
     return when (this) {
         typeOf<String>() ->
