@@ -7,11 +7,19 @@ import java.nio.file.Path
 import kotlin.reflect.KClass
 import kotlin.reflect.KType
 import kotlin.reflect.full.isSubtypeOf
+import kotlin.reflect.full.withNullability
 import kotlin.reflect.typeOf
 
 @Suppress("CyclomaticComplexMethod")
-internal fun KType.convert(args: Array<out String>, index: Int): Any =
-    when (this) {
+internal fun KType.convert(args: Array<out String>, index: Int): Any? {
+    // Extend support to nullable types
+    if (isMarkedNullable) {
+        if (args.size <= index) {
+            return null
+        }
+        return withNullability(false).convert(args, index)
+    }
+    return when (this) {
         typeOf<String>() ->
             args[index]
 
@@ -59,6 +67,7 @@ internal fun KType.convert(args: Array<out String>, index: Int): Any =
                 throw IllegalArgumentException("Unsupported $this")
         }
     }
+}
 
 // https://stackoverflow.com/a/46422600/5489877
 @Suppress("UNCHECKED_CAST")

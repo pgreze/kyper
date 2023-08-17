@@ -17,6 +17,7 @@ import java.util.stream.Stream
 import kotlin.reflect.KType
 import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.full.primaryConstructor
+import kotlin.reflect.full.withNullability
 import kotlin.reflect.jvm.javaGetter
 import kotlin.reflect.typeOf
 
@@ -53,6 +54,14 @@ class TypesKtTest {
     @MethodSource("typeToValueProvider")
     fun convert(kType: KType, value: Any) {
         kType.convert(arrayOf("", value.toString()), 1) shouldBe value
+    }
+
+    @ParameterizedTest
+    @MethodSource("typeToValueProvider")
+    fun `convert nullable types`(kType: KType, value: Any) {
+        val nullableType = kType.withNullability(true)
+        nullableType.convert(arrayOf(""), 1) shouldBe null
+        nullableType.convert(arrayOf("", value.toString()), 1) shouldBe value
     }
 
     @Test
