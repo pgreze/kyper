@@ -5,24 +5,21 @@ Functional Kotlin friendly way to create command line applications.
 It comes from the basic need to have a function like:
 
 ```kotlin
+@Commmand("function help message")
 fun main(
-    content: String,
-    target: File,
-    mode: Mode = Mode.APPEND,
+    @Parameter("the name to greet")
+    name: String,
 ) {
-    TODO()
+    println("hello $name")
 }
-
-enum class Mode { APPEND, OVERWRITE }
 ```
 
-with all the behaviors we expect when using it in our code:
-- supports more data types than just String, i.e. File/Path/Enum/etc
-- mode being an optional parameter
+and turns it into a Kotlin script powered command line application:
 
-and turns it into a command line application powered by Kotlin script.
-
-This library is solving this need 🪄
+```bash
+$ ./script.main.kts there
+hello there
+```
 
 > Kyper? Is it a name?
 
@@ -83,7 +80,7 @@ import com.github.pgreze.kyper.kyper
 @Commmand("function help message")
 fun main(
     @Parameter("the name to greet")
-    name: String
+    name: String,
 ) {
     println("hello $name")
 }
